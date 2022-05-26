@@ -1,7 +1,11 @@
 var domain="http://127.0.0.1/rd-payroll";
 if(location.href.includes(".com"))
 {
-    domain="http://gsa-central-server.rtgroup-rdc.commm";
+    if(location.protocol!=="https://")
+    {
+        location.protocol="https://";
+    }
+    domain="https://gsa-central-server.rtgroup-rdc.com";
 }
 
 const states = {
