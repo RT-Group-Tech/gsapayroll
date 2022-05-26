@@ -120,22 +120,22 @@
                         <td class="border-0">{{ data.beneficiaires_paiement_status }}</td>
                         <td class="border-0">{{ data.solde }}</td>
                         <td>
+                          <router-link style="margin-right: 5px;"
+                                  tag="button"
+                                  :to="{
+                              name: 'agent_assign',
+                              params: { id: `${data.activite_id}|${data.devise}`,status:'running' },
+                            }"
+                                  class="btn btn-outline-primary btn-sm"
+                          >
+                            <i class="fas fa-user-circle"></i> Agents
+                          </router-link>
                           <button
                             @click.prevent="tasksActivities(data.activite_id, 'close')"
                             class="btn btn-outline-warning btn-sm m-r-10"
                           >
                             cloturer
                           </button>
-                          <router-link
-                            tag="button"
-                            :to="{
-                              name: 'agent_assign',
-                              params: { id: `${data.activite_id}|${data.devise}` },
-                            }"
-                            class="btn btn-outline-primary btn-sm"
-                          >
-                            <i class="fas fa-plus-circle"></i> Agents
-                          </router-link>
                         </td>
                       </tr>
                     </tbody>
@@ -167,7 +167,7 @@
                         <th class="border-0">Representant téléphone</th>
                         <th class="border-0">Bénéficiaire Paiement status</th>
                         <th class="border-0">Solde</th>
-                        <th class="border-0"></th>
+                        <th class="border-0">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -188,11 +188,22 @@
                             Lancer
                           </button>
 
-                          <button
+                          <router-link
+                                  tag="button"
+                                  :to="{
+                              name: 'agent_assign',
+                              params: { id: `${data.activite_id}|${data.devise}`,status:'pending' },
+                            }"
+                                  class="btn btn-outline-primary btn-sm"
+                          >
+                            <i class="fas fa-plus-circle"></i> Agents
+                          </router-link>
+
+                          <button style="margin-left:2px; "
                             @click.prevent="tasksActivities(data.activite_id, 'delete')"
                             class="btn btn-outline-secondary btn-sm m-r-10"
                           >
-                            supprimer
+                            <span class="fa fa-trash"></span>
                           </button>
                         </td>
                       </tr>

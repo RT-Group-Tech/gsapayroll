@@ -13,8 +13,13 @@ Vue.filter('sortlength', function(text, length, suffix) {
 Vue.use(Vuex);
 
 //axios instance
+var domain="http://127.0.0.1/rd-payroll";
+if(location.href.includes(".com"))
+{
+    domain="http://gsa-central-server.rtgroup-rdc.com";
+}
 var instance = axios.create({
-    baseURL: 'http://gsa-central-server.rtgroup-rdc.com/',
+    baseURL: domain,
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
     }

@@ -73,7 +73,7 @@ const routes = [{
             },
 
             {
-                path: '/admin/assigner/agent/:id',
+                path: '/admin/assigner/agent/:id/:status?',
                 component: assignAgent,
                 name: 'agent_assign'
             }

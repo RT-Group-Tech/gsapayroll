@@ -1,5 +1,11 @@
+var domain="http://127.0.0.1/rd-payroll";
+if(location.href.includes(".com"))
+{
+    domain="http://gsa-central-server.rtgroup-rdc.commm";
+}
+
 const states = {
-    baseURL: 'http://gsa-central-server.rtgroup-rdc.com',
+    baseURL: domain,
     agents: [],
     activities: [],
     eActivities: [],

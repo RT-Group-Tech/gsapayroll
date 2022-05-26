@@ -86,7 +86,7 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="inputEmail">Nom Répresentant</label>
+                        <label for="inputEmail">Nom Répresentant(optionnel)</label>
                         <input
                           id="inputPhone"
                           type="text"
@@ -99,7 +99,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="inputPass" class="col-form-label"
-                          >N° de téléphone du répresentant</label
+                          >N° de téléphone du répresentant(optionnel)</label
                         >
                         <input
                           id="inputPass"
@@ -190,11 +190,10 @@ export default {
       console.log(file);
     },
 
-    submitted() {
+    submitted()
+    {
       let checking = [
         this.form.site_id,
-        this.form.nom_representant,
-        this.form.telephone,
         this.form.file,
       ];
 
@@ -214,7 +213,7 @@ export default {
       }
       let formData = new FormData();
       formData.append("admin_id", "1");
-      formData.append("activite_date", this.form.date_activite);
+      formData.append("activite_date", this.form.date_activite); //TODO: Vérifier la validité de la date( si date antérieur ou pas ).
       formData.append("site_id", this.form.site_id);
       formData.append("nom_representant", this.form.nom_representant);
       formData.append("telephone_representant", this.form.telephone);
@@ -232,7 +231,7 @@ export default {
             this.$axios
               .post("operations/activites/beneficiaires/importer", formData1)
               .then((result) => {
-                console.log(JSON.stringify(result.data));
+                console.clear(); console.log(JSON.stringify(result.data));
 
                 if (result.data.reponse.status === "success") {
                   this.isLoading = false;

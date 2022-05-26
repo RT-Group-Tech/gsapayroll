@@ -7,7 +7,7 @@
           <!-- ============================================================== -->
           <!-- pageheader  -->
           <!-- ============================================================== -->
-          <div class="row">
+          <div v-if="status==='pending'" class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="page-header" id="top">
                 <h2 class="pageheader-title">Attribution accès administrateur</h2>
@@ -28,7 +28,7 @@
             </div>
           </div>
 
-          <div class="row">
+          <div v-if="status==='pending'" class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="section-block" id="basicform">
                 <h3 class="section-title">Assigner l'agent à une activité</h3>
@@ -58,25 +58,6 @@
                           </select>
                         </div>
                       </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="inputNom" class="col-form-label">Montant</label>
-                          <div class="input-group">
-                            <input
-                              type="text"
-                              v-model="form.montant"
-                              class="form-control border-primary"
-                              placeholder="Entrez le montant..."
-                            />
-                            <div class="input-group-append">
-                              <span class="input-group-text">{{
-                                $route.params.id.split("|")[1]
-                              }}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </form>
                 </div>
@@ -85,6 +66,34 @@
                     Assigner
                   </button>
                   <button class="btn btn-secondary">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+              <div class="card">
+                <h5 class="card-header">Tous les agents assignés</h5>
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class="bg-light">
+                      <tr class="border-0">
+                        <th class="border-0">Nom</th>
+                        <th class="border-0">Téléphone</th>
+                        <th class="border-0">Montant</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="agent in agents" :key="agent.agent_id">
+                        <td class="border-0">{{ agent.nom}}</td>
+                        <td class="border-0">{{ agent.telephone}}</td>
+                        <td class="border-0">{{ agent.montant}} {{agent.devise}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -108,10 +117,15 @@ export default {
         montant: "",
       },
       isLoading: false,
+      status:"pending"
     };
   },
 
   mounted() {
+
+    this.status=this.$route.params.status;
+    console.clear();
+    console.log(this.status);
     this.$store.dispatch("viewAgents");
     this.$store.dispatch("scrollToTop");
     console.log(this.$route.params);
@@ -119,17 +133,33 @@ export default {
 
   computed: {
     agents() {
-      return this.$store.getters.getAgents;
+      var activites
+      if(this.status==="pending")
+      {
+        activites=this.$store.getters.geteActivities;
+      }
+      else
+      {
+        activites=this.$store.getters.getActivities;
+      }
+      var agents=[];
+      for(var i=0; i<activites.length; i++)
+      {
+        if(activites[i].activite_id===this.form.activite_id)
+        {
+          agents=activites[i].agents;
+          break;
+        }
+      }
+      return agents;
     },
   },
 
   methods: {
     submitted() {
       let fields = [
-        this.form.devise,
         this.form.activite_id,
         this.form.agent_id,
-        this.form.montant,
       ];
 
       for (let i = 0; i < fields.length; i++) {
@@ -150,8 +180,6 @@ export default {
       let formData = new FormData();
       formData.append("agent_id", this.form.agent_id);
       formData.append("activite_id", this.form.activite_id);
-      formData.append("montant", this.form.montant);
-      formData.append("devise", this.form.devise);
       formData.append("admin_id", "1");
       this.isLoading = true;
       this.$axios
