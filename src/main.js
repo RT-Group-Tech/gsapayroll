@@ -16,7 +16,11 @@ Vue.use(Vuex);
 var domain="http://127.0.0.1/rd-payroll";
 if(location.href.includes(".com"))
 {
-    domain="http://gsa-central-server.rtgroup-rdc.com";
+    if(location.protocol!=="https://")
+    {
+        location.protocol="https://";
+    }
+    domain="https://gsa-central-server.rtgroup-rdc.com";
 }
 var instance = axios.create({
     baseURL: domain,

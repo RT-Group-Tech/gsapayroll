@@ -86,7 +86,7 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="agent in agents" :key="agent.agent_id">
+                      <tr v-for="agent in agentsAssigned" :key="agent.agent_id">
                         <td class="border-0">{{ agent.nom}}</td>
                         <td class="border-0">{{ agent.telephone}}</td>
                         <td class="border-0">{{ agent.montant}} {{agent.devise}}</td>
@@ -133,7 +133,11 @@ export default {
 
   computed: {
     agents() {
-      var activites
+      return this.$store.getters.getAgents;
+    },
+    agentsAssigned()
+    {
+      var activites;
       if(this.status==="pending")
       {
         activites=this.$store.getters.geteActivities;
@@ -152,7 +156,7 @@ export default {
         }
       }
       return agents;
-    },
+    }
   },
 
   methods: {
